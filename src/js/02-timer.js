@@ -58,6 +58,9 @@ function addLeadingZero(value) {
 btnStart.addEventListener('click', onBtnStartClick);
 function onBtnStartClick(evt) {
     timerID = setInterval(() => {
+        btnStart.disabled = true;
+        input.disabled = true;
+
         const currentDay = new Date();
         const selectedDate = new Date(input.value);
         const ms = selectedDate.getTime() - currentDay.getTime();
@@ -66,7 +69,8 @@ function onBtnStartClick(evt) {
         minutes.textContent = addLeadingZero(convertMs(ms).minutes);
         seconds.textContent = addLeadingZero(convertMs(ms).seconds);
         if (ms < 1000) {
-            clearInterval(timerID)
+            clearInterval(timerID);
+            input.disabled = false;
         }
 
 

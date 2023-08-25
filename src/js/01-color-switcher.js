@@ -6,6 +6,7 @@ const btnStop = document.querySelector('[data-stop]');
 btnStart.addEventListener('click', onClickBtnStart);
 btnStop.addEventListener('click', onClickBtnStop);
 
+btnStop.disabled = true;
 // функції зміни кольору body
 function changeBodyColor() {
   const bodyColor = getRandomHexColor();

@@ -12,19 +12,31 @@ function onFormSubmit(evt) {
   let delay = Number(refs.delay.value);
   const step = Number(refs.step.value);
   const amount = Number(refs.amount.value);
+  refs.form.reset();
   
-  let position;
-    for (let i = 1; i <= amount; i += 1) {
-    createPromise(i, delay);
+  
+  const promises = [];
+  for (let i = 1; i <= amount; i += 1) {
       delay += step;
-}
+      promises.push(createPromise(i, delay));  
+  }
+  promises.forEach(promise => {
+    promise
+  .then(({ position, delay }) => {
+    console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+  })
+  .catch(({ position, delay }) => {
+    console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+  });
+  })
+  
 }
  
 
 
 function createPromise(position, delay) {
-  const shouldResolve = Math.random() > 0.3;
-  const promise = new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
+    const shouldResolve = Math.random() > 0.3;
     setTimeout(() => {
       if (shouldResolve) {
         resolve({ position, delay });
@@ -33,12 +45,5 @@ function createPromise(position, delay) {
       }
       
     }, delay);
-  });
-  promise.then(({ position, delay }) => {
-    console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-  })
-  .catch(({ position, delay }) => {
-    console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-  });
-
+  });  
 }
