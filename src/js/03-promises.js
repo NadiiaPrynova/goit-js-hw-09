@@ -15,21 +15,17 @@ function onFormSubmit(evt) {
   refs.form.reset();
   
   
-  const promises = [];
+  
   for (let i = 1; i <= amount; i += 1) {
-      delay += step;
-      promises.push(createPromise(i, delay));  
-  }
-  promises.forEach(promise => {
-    promise
-  .then(({ position, delay }) => {
+      createPromise(i, delay).then(({ position, delay }) => {
     console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
   })
   .catch(({ position, delay }) => {
     console.log(`❌ Rejected promise ${position} in ${delay}ms`);
   });
-  })
-  
+  delay += step;  
+  }
+   
 }
  
 
